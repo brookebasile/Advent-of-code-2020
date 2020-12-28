@@ -44,10 +44,13 @@ int main()
 int parse(struct line *entries)
 {
 	int ret = 0;
+	int len;
+
 	for (int i = 0; i < MAXLEN; i++) {
 		int count = 0;
-		
-		for (int n = 0; n < strlen(entries[i].password); n++) {
+		len = strlen(entries[i].password);
+
+		for (int n = 0; n < len; n++) {
 			if (entries[i].password[n] == entries[i].letter)
 				count++;
 		}
