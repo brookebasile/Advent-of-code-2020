@@ -18,7 +18,7 @@ int main()
 {
 	struct line entries[MAXLEN];
 	char buf[MAXLEN];
-	int ret;
+	int ret, tot;
 
 	FILE *file = fopen("input.txt", "r");
 
@@ -30,10 +30,17 @@ int main()
 	/*
 	 * Organize input into array of structs
 	 */
-	for (int i = 0; i < MAXLEN && fgets(buf, MAXLEN, file) != 0; i++)
+	tot = 0;
+
+	for (int i = 0; i < MAXLEN && fgets(buf, MAXLEN, file) != 0; i++) {
 		sscanf(buf, "%d-%d %c: %s\n", &entries[i].min, &entries[i].max,
 		       &entries[i].letter, entries[i].password);
+		tot++;
+	}
 	fclose(file);
+
+	if (tot != MAXLEN)
+		return EINVAL;
 
 	ret = parse(entries);
 	printf("%d\n", ret);
@@ -44,13 +51,11 @@ int main()
 int parse(struct line *entries)
 {
 	int ret = 0;
-	int len;
 
 	for (int i = 0; i < MAXLEN; i++) {
 		int count = 0;
-		len = strlen(entries[i].password);
 
-		for (int n = 0; n < len; n++) {
+		for (int n = 0; entries[i].password[n] != '\0'; n++) {
 			if (entries[i].password[n] == entries[i].letter)
 				count++;
 		}
