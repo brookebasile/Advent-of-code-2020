@@ -32,13 +32,13 @@ int main()
 	 */
 	tot = 0;
 
-	for (int i = 0; i < MAXLEN && fgets(buf, MAXLEN, file) != 0; i++) {
+	for (int i = 0; fgets(buf, MAXLEN, file) != 0 && i < MAXLEN; i++) {
 		sscanf(buf, "%d-%d %c: %s\n", &entries[i].min, &entries[i].max,
 		       &entries[i].letter, entries[i].password);
 		tot++;
 	}
 	fclose(file);
-
+	
 	if (tot != MAXLEN)
 		return EINVAL;
 
